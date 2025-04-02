@@ -67,8 +67,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Configure Docker to Use GCR
+        run: gcloud auth configure-docker
+
       - name: Build Docker Image
-        run: docker build -t ghcr.io/spry-optics-455606-s8/devsecops-demo-app:latest .
+        run: docker build -t gcr.io/spry-optics-455606-s8/devsecops-demo-app:latest .
 
       - name: Run Snyk Container Scan
         env:
@@ -76,14 +84,17 @@ jobs:
         run: |
           npm install -g snyk
           snyk auth $SNYK_TOKEN
-          snyk container test ghcr.io/spry-optics-455606-s8/devsecops-demo-app:latest
+          snyk container test gcr.io/spry-optics-455606-s8/devsecops-demo-app:latest
         continue-on-error: true
 
-      - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push Image to Google Container Registry (GCR)
+        run: docker push gcr.io/spry-optics-455606-s8/devsecops-demo-app:latest
 
-      - name: Push Image to GitHub Container Registry
-        run: docker push ghcr.io/spry-optics-455606-s8/devsecops-demo-app:latest
+      # - name: Log in to GitHub Container Registry
+      #   run: echo "${{ secrets.PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # - name: Push Image to GitHub Container Registry
+      #   run: docker push ghcr.io/spry-optics-455606-s8/devsecops-demo-app:latest
 
   deploy:
     name: Deploy Application to GCP Cloud Run
@@ -101,7 +112,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy devsecops-demo-app \
-            --image=ghcr.io/spry-optics-455606-s8/devsecops-demo-app:latest \
+            --image=gcr.io/spry-optics-455606-s8/devsecops-demo-app:latest \
             --platform=managed \
             --region=asia-south1 \
             --allow-unauthenticated
