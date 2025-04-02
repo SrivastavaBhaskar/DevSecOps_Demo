@@ -1,0 +1,30 @@
+{
+  "name": "devsecops_demo",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node ./src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SrivastavaBhaskar/DevSecOps_Demo.git"
+  },
+  "keywords": [
+    "DevSecOps"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SrivastavaBhaskar/DevSecOps_Demo/issues"
+  },
+  "homepage": "https://github.com/SrivastavaBhaskar/DevSecOps_Demo#readme",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
