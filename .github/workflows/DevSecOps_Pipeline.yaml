@@ -47,13 +47,17 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN
 
-      - name: Run Snyk Scan
+      - name: Run Snyk SCA Scan
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
           npm install -g snyk
           snyk auth $SNYK_TOKEN
           snyk test
+
+      - name: Run Snyk SAST Scan
+        run: |
+          snyk code test
 
   containerize:
     name: Build and Scan Container Image
