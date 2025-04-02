@@ -42,8 +42,8 @@ jobs:
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
-            -Dsonar.projectKey=your_project_key \
-            -Dsonar.organization=your_org \
+            -Dsonar.projectKey=SrivastavaBhaskar_DevSecOps_Demo \
+            -Dsonar.organization=srivastavabhaskar \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN
 
