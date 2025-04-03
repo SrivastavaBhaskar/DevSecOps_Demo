@@ -10,6 +10,6 @@ describe('Express API', () => {
   test('GET / should return Hello, DevSecOps!', async () => {
     const res = await request(server).get('/');
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ message: 'Hello, DevSecOps! Test1' });
+    expect(res.body).toEqual({ message: 'Hello, DevSecOps! Test2' });
   });
 });
